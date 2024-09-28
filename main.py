@@ -1,7 +1,15 @@
-import telebot, constants
-import db
+import telebot, constants, db
 
 bot = telebot.TeleBot(token=constants.TOKEN, parse_mode="Markdown")
+
+
+def greeting(message):
+    user_exists = db.check_user_exists(message.from_user.id)
+
+    if user_exists:
+        bot.send_message(message.chat.id, "Welcome back! Choose an action:")
+    else:
+        bot.send_message(message.chat.id, "Hello! Choose an action:")
 
 
 @bot.message_handler()
@@ -11,7 +19,7 @@ def message_handler(message):
 
     if in_whitelist:
         if text == "/start":
-            bot.send_message(message.from_user.id, "*Hello!*")
+            greeting(message)
 
 
 bot.polling()
