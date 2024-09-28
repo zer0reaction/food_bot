@@ -1,15 +1,33 @@
 import telebot, constants, db
+from telebot.types import InlineKeyboardButton, ReplyKeyboardMarkup
 
 bot = telebot.TeleBot(token=constants.TOKEN, parse_mode="Markdown")
 
 
+# Possible states:
+# greeting
+
+
 def greeting(message):
     user_exists = db.check_user_exists(message.from_user.id)
+    text = str()
+
+    markup = ReplyKeyboardMarkup(resize_keyboard=True)
+
+    buttons = [
+        InlineKeyboardButton(text="View list"),
+        InlineKeyboardButton(text="Add items to list")
+    ]
+
+    for button in buttons: markup.add(button)
 
     if user_exists:
-        bot.send_message(message.chat.id, "Welcome back! Choose an action:")
+        text = "Welcome back!\nChoose an acion:"
     else:
-        bot.send_message(message.chat.id, "Hello! Choose an action:")
+        text = "Hello and welcome to Food Bot!\nChoose an action:"
+
+    bot.send_message(message.chat.id, text, reply_markup=markup)
+    db.update_user_state(message.from_user.id, "greeting")
 
 
 @bot.message_handler()
