@@ -50,6 +50,7 @@ def view_list(message):
     bot.send_message(message.chat.id, text, reply_markup=markup)
     db.update_user_state(message.from_user.id, states[1]) # viewing_list
 
+
 def add_items_to_list(message):
     print("User {} is adding items to list".format(message.from_user.id))
 
@@ -87,7 +88,6 @@ def message_handler(message):
 
         elif text == "Add items to list" and state == states[0]: # greeting
             add_items_to_list(message)
-
 
 
 bot.polling()

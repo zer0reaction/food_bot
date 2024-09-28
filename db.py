@@ -68,3 +68,7 @@ def update_user_state(user_id: int, user_state: str):
 
     con.commit()
     con.close()
+
+
+def get_food_data():
+    ...
