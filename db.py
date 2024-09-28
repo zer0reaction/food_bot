@@ -24,6 +24,22 @@ def check_user_exists(user_id: int):
     return user_exists
 
 
+def get_user_state(user_id: int):
+    con = sqlite3.connect("./db/users.db")
+    cur = con.cursor()
+
+    # checking if the user is in our database
+    user_exists = check_user_exists(user_id)
+    if not user_exists: return None
+
+    # getting user_state
+    cur.execute("SELECT user_state FROM state LIMIT 1")
+    user_state = cur.fetchone()
+
+    con.close()
+    return user_state
+
+
 def update_user_state(user_id: int, user_state: str):
     con = sqlite3.connect("./db/users.db")
     cur = con.cursor()
