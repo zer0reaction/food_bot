@@ -1,4 +1,5 @@
 import telebot, constants
+import db
 
 bot = telebot.TeleBot(token=constants.TOKEN, parse_mode="Markdown")
 
